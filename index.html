@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="monetag" content="c3cc015a4d42ffc32e343df42b8fa34d">
+<title>Vortex MCPE — Mods, Resource Packs & Addons for Bedrock</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0f172a',
+          card: '#1e293b',
+          card2: '#243248',
+          emerald: { DEFAULT: '#22c55e', dark: '#16a34a', light: '#4ade80' },
+          purple: { DEFAULT: '#8b5cf6', dark: '#7c3aed', light: '#a78bfa' },
+        },
+        fontFamily: {
+          display: ['Rajdhani', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body { background-color: #0f172a; font-family: 'Inter', sans-serif; }
+  .font-display { font-family: 'Rajdhani', sans-serif; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #0f172a; }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  .progress-fill { background: linear-gradient(90deg, #22c55e, #8b5cf6); transition: width 0.2s linear; }
+
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 30px -10px rgba(34, 197, 94, 0.15);
+  }
+  .btn-glow {
+    transition: all 0.25s ease;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+    transform: translateY(-1px);
+  }
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .modal-zoom {
+    animation: modalZoom 0.25s ease-out forwards;
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body class="bg-bg text-slate-200 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald selection:text-slate-950">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-bg/90 backdrop-blur-md border-b border-slate-800 transition-all">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16 gap-4">
+      <a href="#" onclick="showView('homeView')" class="flex items-center gap-2 group">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald to-purple shadow-lg group-hover:scale-105 transition-transform">
+          <i class="fas fa-bolt text-slate-950 text-lg"></i>
+        </span>
+        <span class="font-display text-2xl font-bold text-white tracking-wide">VORTEX<span class="text-emerald">MCPE</span></span>
+      </a>
+
+      <!-- NAV LINKS -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-display font-semibold text-slate-300">
+        <a href="#" onclick="showView('homeView')" class="hover:text-emerald transition-colors">Home</a>
+        <a href="#" onclick="filterGrid('Add-ons')" class="hover:text-emerald transition-colors">Add-ons</a>
+        <a href="#" onclick="filterGrid('Maps')" class="hover:text-emerald transition-colors">Maps</a>
+        <a href="#" onclick="filterGrid('Texture Packs')" class="hover:text-emerald transition-colors">Texture Packs / Shaders</a>
+        <a href="#" onclick="filterGrid('Skins')" class="hover:text-emerald transition-colors">Skins</a>
+      </nav>
+
+      <button onclick="showView('contactView')" class="btn-glow inline-flex items-center gap-2 bg-emerald text-slate-950 font-display font-bold text-sm px-5 py-2.5 rounded-full">
+        <i class="fas fa-envelope text-xs"></i>
+        Contact Us
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" class="flex-1">
+
+  <!-- ================= VIEW 1: HOME PAGE ================= -->
+  <div id="homeView" class="view-section fade-in">
+    <!-- HERO -->
+    <section class="border-b border-slate-800/80 py-14 text-center relative overflow-hidden bg-gradient-to-b from-slate-900/50 to-bg">
+      <div class="max-w-4xl mx-auto px-4 relative z-10">
+        <h1 class="font-display text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
+          Vortex MCPE <span class="bg-gradient-to-r from-emerald via-emerald-light to-purple bg-clip-text text-transparent">Resource Hub</span>
+        </h1>
+        <p class="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">Tested Mods, Maps, Shaders, Skins & Resource Packs for Minecraft Bedrock (MCPE 1.21+).</p>
+      </div>
+    </section>
+
+    <!-- GRID SECTION -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+      <div class="flex items-center justify-between mb-8">
+        <h2 id="gridTitle" class="font-display text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-emerald inline-block animate-pulse"></span>
+          Latest MCPE Content
+        </h2>
+        <button onclick="filterGrid('all')" class="text-xs text-emerald font-display font-bold hover:underline bg-emerald/10 px-3 py-1.5 rounded-lg border border-emerald/20 transition-all hover:bg-emerald/20">Show All</button>
+      </div>
+      <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </div>
+
+  <!-- ================= VIEW 2: DEDICATED MOD PAGE ================= -->
+  <div id="modView" class="view-section hidden max-w-4xl mx-auto px-4 py-8">
+    <button onclick="showView('homeView')" class="mb-6 inline-flex items-center gap-2 text-slate-400 hover:text-white font-display font-semibold text-sm transition-colors group">
+      <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Catalog
+    </button>
+    <div id="modPageContent" class="fade-in"></div>
+  </div>
+
+  <!-- ================= VIEW 3: COMPREHENSIVE PRIVACY POLICY ================= -->
+  <div id="privacyView" class="view-section hidden max-w-4xl mx-auto px-4 py-10 space-y-6 text-slate-300 text-sm leading-relaxed fade-in">
+    <h1 class="font-display text-4xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Privacy Policy for Vortex MCPE</h1>
+    <p class="text-xs text-slate-400">Last updated: August 2026</p>
+    <p>At <strong>Vortex MCPE</strong>, accessible from our official website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Vortex MCPE and how we use it. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-emerald pl-3">1. Log Files & Analytics Data</h2>
+    <p>Vortex MCPE follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this as part of hosting services' analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.</p>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-emerald pl-3">2. Cookies and Web Beacons</h2>
+    <p>Like any other website, Vortex MCPE uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-emerald pl-3">3. Google DoubleClick DART Cookie & Google AdSense</h2>
+    <p>Google is one of a third-party vendor on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our site and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL — <a href="https://policies.google.com/technologies/ads" target="_blank" class="text-emerald underline">https://policies.google.com/technologies/ads</a></p>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-emerald pl-3">4. Third-Party Privacy Policies & External Download Mirrors</h2>
+    <p>Vortex MCPE's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers or cloud storage platforms (such as TeraBox) for more detailed information. It may include their practices and instructions about how to opt-out of certain options.</p>
+  </div>
+
+  <!-- ================= VIEW 4: COMPREHENSIVE TERMS OF SERVICE & DISCLAIMER ================= -->
+  <div id="termsView" class="view-section hidden max-w-4xl mx-auto px-4 py-10 space-y-6 text-slate-300 text-sm leading-relaxed fade-in">
+    <h1 class="font-display text-4xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Terms of Service & Disclaimer</h1>
+    <p class="text-xs text-slate-400">Last updated: August 2026</p>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-purple pl-3">1. Mojang AB & Microsoft Disclaimer</h2>
+    <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl text-xs text-slate-300 space-y-2">
+      <p class="font-bold text-emerald text-sm">NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
+      <p>Vortex MCPE is an independent fan-made portal that provides community-created modifications, resource packs, shaders, and add-ons for Minecraft Bedrock Edition (MCPE). Minecraft, its name, brand, assets, and registered trademarks belong entirely to Mojang Synergies AB and Microsoft Corporation.</p>
+    </div>
+    <h2 class="font-display text-2xl font-bold text-white mt-8 border-l-4 border-purple pl-3">2. Content Copyright & Fair Use</h2>
+    <p>All mods, texture packs, and custom add-ons hosted or indexed on Vortex MCPE are the property of their respective original creators and developers. Vortex MCPE acts solely as a distribution index platform.</p>
+  </div>
+
+  <!-- ================= VIEW 5: CONTACT US ================= -->
+  <div id="contactView" class="view-section hidden max-w-2xl mx-auto px-4 py-10 fade-in">
+    <h1 class="font-display text-3xl font-bold text-white mb-2">Contact Vortex MCPE</h1>
+    <p class="text-slate-400 text-sm mb-6">Have a question, DMCA request, or want to submit a mod? Fill out the form below.</p>
+    <form onsubmit="event.preventDefault(); alert('Message Sent Successfully!');" class="bg-card border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
+      <div>
+        <label class="block text-xs font-display font-bold text-slate-400 mb-1">Your Name</label>
+        <input type="text" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-display font-bold text-slate-400 mb-1">Your Email</label>
+        <input type="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald transition-colors">
+      </div>
+      <div>
+        <label class="block text-xs font-display font-bold text-slate-400 mb-1">Message</label>
+        <textarea rows="4" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald transition-colors"></textarea>
+      </div>
+      <button type="submit" class="btn-glow w-full bg-emerald text-slate-950 font-display font-bold py-3.5 rounded-xl">
+        Send Message
+      </button>
+    </form>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950/60 py-8 mt-16 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+    <div class="flex justify-center gap-6 text-xs font-display font-semibold text-slate-400">
+      <a href="#" onclick="showView('privacyView')" class="hover:text-emerald transition">Privacy Policy</a>
+      <a href="#" onclick="showView('termsView')" class="hover:text-emerald transition">Terms of Service</a>
+      <a href="#" onclick="showView('contactView')" class="hover:text-emerald transition">Contact Us</a>
+    </div>
+    <div class="text-xs text-slate-500">
+      &copy; <span id="year"></span> Vortex MCPE. Independent fan site, not affiliated with Mojang AB or Microsoft.
+    </div>
+  </div>
+</footer>
+
+<!-- DOWNLOAD COUNTDOWN MODAL -->
+<div id="downloadModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+  <div class="modal-zoom bg-card border border-slate-700 rounded-2xl w-full max-w-md p-6 sm:p-8 text-center shadow-2xl relative">
+    <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition">
+      <i class="fas fa-xmark text-lg"></i>
+    </button>
+    <div id="dlProcessing">
+      <div class="text-4xl font-display font-bold text-white mb-2" id="dlCountdownNum">10</div>
+      <p class="text-sm font-semibold text-white">Preparing your download link…</p>
+      <p class="text-xs text-slate-400 mt-1 mb-6">Verifying file mirror safety.</p>
+      <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-800">
+        <div id="dlProgressBar" class="progress-fill h-full rounded-full" style="width:0%"></div>
+      </div>
+    </div>
+    <div id="dlReady" class="hidden fade-in">
+      <p class="text-emerald text-sm font-bold mb-5 flex items-center justify-center gap-2">
+        <i class="fas fa-check-circle text-lg"></i> File Verified & Ready
+      </p>
+      <button id="dlFinalBtn" onclick="startDownload()" class="btn-glow w-full bg-emerald text-slate-950 font-display font-bold py-3.5 rounded-xl shadow-lg">
+        <i class="fas fa-cloud-arrow-down mr-2"></i> Download File
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const RESOURCES = [
+    {
+      id: "rg-shader-texture-pack",
+      name: "RG Shader (Texture Pack Based Shader)",
+      cat: "Texture Packs",
+      arch: "Low to Mid-End Supported",
+      downloads: "135K",
+      size: "3.10 MB",
+      version: "Latest Version Supported",
+      bannerImage: "https://media.forgecdn.net/attachments/1557/626/1000981274-gif.gif",
+      teraboxUrl: "https://terabox.com/s/1PThcj-Q_myW6PG9zUsknWA",
+      summary: "RG Shader is a texture pack based shader which animates all grass and leaves to match real life. It adds fog creating light scatter effects, realistic rain, and godrays!",
+      keywords: ["RG Shader MCPE", "RG Shader Download Bedrock", "Minecraft PE Texture Pack Shader", "Waving Grass MCPE Shader", "Godrays Shader Bedrock", "Low End Shader Minecraft PE"],
+      sections: [
+        {
+          title: "About RG Shader",
+          content: "RG Shader Is A Texture Pack Based Shader Which Animated All grass ,Leafs To Match With Real Life .It also Adds Fogs which create A light Scatter effect. Overall it is best for those who can't use vibrant visuals and don't use patch . We Recommend You To Use This .Give It A Try.<br><br>" +
+                   "🎥 <strong>Showcase Video:</strong> <a href='https://youtu.be/1xzAM2ofUvU?si=KYj16hLFv-3A903T' target='_blank' class='text-emerald underline'>Watch Showcase on YouTube</a>",
+          image: "https://media.forgecdn.net/attachments/1557/626/1000981274-gif.gif",
+          caption: "RG Shader Main Cover Preview."
+        },
+        {
+          title: "Features",
+          content: "• Lifelike lighting and shadows 🌄<br>" +
+                   "• Smooth waving grass, leaves & trees🍃<br>" +
+                   "• Crystal-clear and reflective water 💧<br>" +
+                   "• Realistic skies with clouds and sunrise/sunset cycles ☁️<br>" +
+                   "• Atmospheric fog and bloom effects<br>" +
+                   "• Performance-optimized for smooth gameplay<br>" +
+                   "• Compatible with most low to mid-end devices.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_620c60ba-3f2a-4e9c-aadb-13494f46c29c.jpg",
+          caption: "Sunrise Atmosphere View."
+        },
+        {
+          title: "Night Sky & Atmosphere",
+          content: "Experience crisp, immersive night scenes with refined lighting balance and smooth atmospheric depth.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_05697bee-22f4-43b1-a763-a8fb2fb10ca8.jpg",
+          caption: "Night Environment Preview."
+        },
+        {
+          title: "Grass And Leaves Animations",
+          content: "Realistic fluid leaf and plant motion animations that breathe life into your biomes without reducing FPS.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_3886f7e4-038a-4420-be87-5dac7e5fe3b0.gif",
+          caption: "Smooth Waving Foliage Animation."
+        },
+        {
+          title: "Realistic Rain Effects",
+          content: "Dynamic rain visuals featuring surface puddle reflections and realistic atmospheric weather conditions.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_c93460d1-1102-436c-8c16-828f375904c0.gif",
+          caption: "Realistic Rain Weather Environment."
+        },
+        {
+          title: "Dynamic Fogs",
+          content: "Light-scattering dynamic fogs that generate atmospheric depth in dense forests and mountainous biomes.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_ed496102-c159-4701-96de-92750dca678a.jpg",
+          caption: "Dynamic Fog Scatter Effect."
+        },
+        {
+          title: "Godrays!!",
+          content: "Stunning volumetric godray rays piercing through canopy leaves and horizon skies.",
+          image: "https://media.forgecdn.net/attachments/description/1238974/description_5548ff67-d731-44a0-9d35-431df235bac6.jpg",
+          caption: "Volumetric Godrays Showcase."
+        },
+        {
+          title: "Changelog",
+          content: "• Falling snow kept.<br>" +
+                   "• Latest versions are supported.",
+          image: "https://media.forgecdn.net/attachments/1557/626/1000981274-gif.gif",
+          caption: "Latest Update & Compatibility Overview."
+        }
+      ]
+    },
+    {
+      id: "tree-capitator-vein-miner-addon",
+      name: "Tree Capitator & Vein Miner Addon",
+      cat: "Add-ons",
+      arch: "Universal / All Devices",
+      downloads: "185K",
+      size: "1.45 MB",
+      version: "Latest Version Supported",
+      bannerImage: "https://media.forgecdn.net/attachments/1653/342/1001084548-gif.gif",
+      teraboxUrl: "https://terabox.com/s/1qvDchGDrVuB1KehViJwhqA",
+      summary: "Enhance your resource gathering in Minecraft with this all-in-one addon that combines Tree Capitator and Vein Miner. Instantly chop entire trees and mine full ore veins effortlessly!",
+      keywords: ["Tree Capitator MCPE", "Vein Miner Minecraft Bedrock", "MCPE Tree Capitator Addon", "Minecraft PE Vein Miner", "Leaf Capitator MCPE", "Fast Mining Addon MCPE"],
+      sections: [
+        {
+          title: "About Tree Capitator & Vein Miner Addon",
+          content: "Enhance your resource gathering in Minecraft with this all-in-one addon that combines <strong>Tree Capitator</strong> and <strong>Vein Miner</strong>. Instantly chop entire trees with one swing and mine full ore veins effortlessly, saving time and effort. It also has a leaf capitator with loot system.<br><br>" +
+                   "<strong>Key Features:</strong><br>" +
+                   "• <strong>Tree Capitator:</strong> Instantly fell entire trees.<br>" +
+                   "• <strong>Vein Miner:</strong> Mine connected ore veins in one go.<br>" +
+                   "• <strong>Leaf Capitator:</strong> Destroys leaves instantly and drops loot like apples, sticks, and saplings.",
+          image: "https://media.forgecdn.net/attachments/1653/342/1001084548-gif.gif",
+          caption: "Tree Capitator & Vein Miner Overview Preview."
+        },
+        {
+          title: "In-Game Action & Demonstration",
+          content: "Check out how Tree Capitator rapidly breaks whole trees down and how Vein Miner destroys entire ore clusters instantaneously with a single click while crouching.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_e11c4ee4-2c0e-4cd3-b25d-be09e091bd69.gif",
+          caption: "Tree Capitator Action Showcase Preview."
+        },
+        {
+          title: "Vein Mining & Leaf Capitator Mechanics",
+          content: "Easily strip full ore veins inside deep caves and collect extra loot drops automatically from falling leaves.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_2590584f-3aae-47e7-9014-93bfa9f3ff76.gif",
+          caption: "Vein Mining and Ore Extraction Preview."
+        },
+        {
+          title: "Video Showcase",
+          content: "🎥 <strong>Watch Showcase Video:</strong> <a href='https://youtu.be/VbzE-_3Q8M8?si=KxSSFI2mzythXzcl' target='_blank' class='text-emerald underline'>Click here to watch on YouTube</a>",
+          image: "https://media.forgecdn.net/attachments/1653/342/1001084548-gif.gif",
+          caption: "Official Youtube Showcase Clip."
+        },
+        {
+          title: "How To Use",
+          content: "Just <strong>Crouch</strong> and Break tree or mine ores to use this addon!<br><br>" +
+                   "Take your Minecraft experience to the next level with the ultimate resource-gathering addon.<br><br>" +
+                   "<strong>⚠️ Note:</strong> To activate pack, Edit or Create your world and tap on the <strong>Behavior Packs</strong> Section, then Activate it.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_e11c4ee4-2c0e-4cd3-b25d-be09e091bd69.gif",
+          caption: "Crouching to trigger fast mining."
+        },
+        {
+          title: "Changelog",
+          content: "• Increased block & tree destruction range.<br>" +
+                   "• Updated to support all latest Minecraft Bedrock versions.",
+          image: "https://media.forgecdn.net/attachments/1653/342/1001084548-gif.gif",
+          caption: "Latest Version Update & Features."
+        }
+      ]
+    },
+    {
+      id: "x-ray-glow-texture-pack",
+      name: "X Ray Glow Texture Pack (Achievement Friendly & Glowing Ores)",
+      cat: "Texture Packs",
+      arch: "Universal / All Devices",
+      downloads: "210K",
+      size: "2.80 MB",
+      version: "Latest Version Supported",
+      bannerImage: "https://media.forgecdn.net/attachments/1670/22/1001092254-jpg.jpg",
+      teraboxUrl: "https://terabox.com/s/1FBuZ5b2I5wZjWCCoObEgtw",
+      summary: "X Ray Glow is the best texture pack based X-Ray that doesn't turn off achievements and shows all precious ores without any issue. Includes built-in glowing ores with Vibrant Visuals!",
+      keywords: ["X Ray Glow MCPE", "Minecraft Bedrock X Ray Texture Pack", "X Ray Achievement Friendly Bedrock", "Glowing Ores MCPE", "Minecraft PE X Ray Mod", "X Ray Glow TeraBox"],
+      sections: [
+        {
+          title: "About X Ray Glow Texture Pack",
+          content: "<strong>X Ray Glow</strong> is the best texture pack based X-Ray that doesn't turn off achievements and shows all precious ores without any issue.<br><br>" +
+                   "It also has built-in glowing ores when you turn on Vibrant Visuals, so that you can easily spot ores underground! :)<br><br>" +
+                   "<strong>Key Features:</strong><br>" +
+                   "• All ores are outlined & visible<br>" +
+                   "• View both underground and surface structures<br>" +
+                   "• Safe to use – does not disable achievements<br>" +
+                   "• Works on servers<br><br>" +
+                   "🎥 <strong>Showcase Video:</strong> <a href='https://youtu.be/Qiaruyh9yKo?si=kW_GGZIZGOx6d87i' target='_blank' class='text-emerald underline'>Watch on YouTube</a>",
+          image: "https://media.forgecdn.net/attachments/1670/22/1001092254-jpg.jpg",
+          caption: "X Ray Glow Official Cover Preview."
+        },
+        {
+          title: "Settings Required",
+          content: "To make sure X Ray Glow works perfectly in your world, apply the following graphics settings:<br><br>" +
+                   "1. <strong>Turn Off</strong> Smooth Lighting.<br>" +
+                   "2. Keep brightness at <strong>100%</strong>.<br>" +
+                   "3. <strong>Turn On</strong> Vibrant Visuals (If your device doesn't lag).",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_8f07deaa-fbe2-4bb7-8674-5c682e52f5c1.jpg",
+          caption: "Required Video & Graphics Settings Interface."
+        },
+        {
+          title: "In-Game Showcase Images",
+          content: "Check out how ores, deepslate variants, underground structures, and glowing outlines look in action inside Minecraft Bedrock Edition.",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_87da017e-8dc4-4307-8893-5c1fe40921a6.jpg",
+          caption: "Showcase Preview 1 — Glowing Ores Outlines."
+        },
+        {
+          title: "Underground Ore Detection",
+          content: "Easily spot diamonds, gold, iron, and emeralds through solid stone and deepslate blocks.",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_50d1b65a-e826-4fc1-a3e1-98a1be1164e4.jpg",
+          caption: "Showcase Preview 2 — Underground Structure & Ore Visibility."
+        },
+        {
+          title: "Deepslate Ores & Mining View",
+          content: "Clear outline visibility for deepslate ore variants in lower cave Y-levels.",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_1db38753-6fb0-47b3-a37f-6373aa3691af.jpg",
+          caption: "Showcase Preview 3 — Deepslate Ores Night View."
+        },
+        {
+          title: "Cave Systems & Surface Structures",
+          content: "Navigate through dark caves and identify dungeon locations effortlessly.",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_dd3c9607-9ead-417b-bf88-68332ea55d43.jpg",
+          caption: "Showcase Preview 4 — Cave & Dungeon Outlines."
+        },
+        {
+          title: "Vibrant Visuals Glow Effect",
+          content: "Enhanced glowing texture effects when Vibrant Visuals option is active.",
+          image: "https://media.forgecdn.net/attachments/description/1304020/description_658dfde8-e92e-4e4c-9f9e-092e01be7d5d.jpg",
+          caption: "Showcase Preview 5 — Vibrant Visuals Ore Glow."
+        },
+        {
+          title: "Changelog",
+          content: "• Deepslate iron ore bug fixes.<br>" +
+                   "• Updated to support all latest Bedrock versions.",
+          image: "https://media.forgecdn.net/attachments/1670/22/1001092254-jpg.jpg",
+          caption: "Changelog & Latest Version Update."
+        }
+      ]
+    },
+    {
+      id: "alleis-skin-pack-v137",
+      name: "Alleis Skin Pack v1.3.7 (180+ 4D & Hive Skins)",
+      cat: "Skins",
+      arch: "Universal / iOS & Bedrock",
+      downloads: "142K",
+      size: "5.20 MB",
+      version: "v1.3.7",
+      bannerImage: "https://media.forgecdn.net/attachments/1830/318/mcpedl-png.png",
+      teraboxUrl: "https://terabox.com/s/1s0R6hS0Qy3Y6HcxgTTWeqQ",
+      summary: "This skin pack created by Alleis contains 180 skins you won't find anywhere else! Divided into Hive Cosmetics and Normal 4D Skins. (iOS Encryption Supported)",
+      keywords: ["Alleis Skin Pack", "MCPE 4D Skins", "Hive Cosmetics Skin Pack", "Minecraft Bedrock 4D Skins", "MCPE iOS Skin Pack", "Alleis Skin Pack TeraBox"],
+      sections: [
+        {
+          title: "Important Installation Notice",
+          content: "<strong>⚠️ Notice:</strong> This skin pack cannot be installed directly with <code>.mcpack</code>. Please make sure to follow the step-by-step installation instructions at the end.<br><br><em>File contents are encrypted for use on iOS devices.</em>",
+          image: "https://media.forgecdn.net/attachments/1830/318/mcpedl-png.png",
+          caption: "Alleis Skin Pack Main Cover Image."
+        },
+        {
+          title: "About Alleis Skin Pack",
+          content: "This skin pack created by <strong>Alleis</strong> contains <strong>180 skins</strong> you won't find anywhere else! The skins are divided into two distinct styles:<br><br>" +
+                   "• <span style='color: #f97316; font-weight: bold;'>Orange Text:</span> Hive Cosmetics<br>" +
+                   "• <span style='color: #eab308; font-weight: bold;'>Gold Text:</span> Normal 4D Skins",
+          image: "https://r2.mcpedl.com/submissions/252835/images/alleis-skin-pack-v124_2.png",
+          caption: "Here are the skins included in Alleis Skin Pack!"
+        },
+        {
+          title: "Skin Lineup Preview",
+          content: "<strong>Hive Cosmetics (Orange Text):</strong><br>" +
+                   "• NPC Chester<br>" +
+                   "• Moria-Chan<br>" +
+                   "• Tearmoon Empire - Mia<br>" +
+                   "• Mario.exe - The Daredevil<br>" +
+                   "• <em>and more!</em><br><br>" +
+                   "<strong>Normal 4D Skins (Gold Text):</strong><br>" +
+                   "• Mint<br>" +
+                   "• Verity<br>" +
+                   "• Pokemon XY - Serena<br>" +
+                   "• Super Smash Bros Ultimate - Pig Outfit and Mask<br>" +
+                   "• <em>and more!</em>",
+          image: "https://r2.mcpedl.com/submissions/252835/images/alleis-skin-pack-v124_2.png",
+          caption: "Detailed Showcase of Hive Cosmetics and 4D Skins."
+        },
+        {
+          title: "How to Install (Step-by-Step)",
+          content: "1. Download this skin pack using the button below.<br>" +
+                   "2. Rename the extension from <code>.mcpack</code> to <code>.zip</code>.<br>" +
+                   "3. Start Minecraft.<br>" +
+                   "4. Get <strong>Cute Kitty HD Skin Packs</strong> or <strong>1st Birthday Skin Pack</strong>.<br>" +
+                   "5. Delete all folders inside the <code>premium_cache/skin_packs</code> folder.<br>" +
+                   "6. Unzip and move this skin pack folder (named <code>\"Alleis Skin Pack 1.3.7 CuteKittyHD\"</code> or <code>\"Alleis Skin Pack 1.3.7 1stBirthday\"</code>) to the <code>premium_cache/skin_packs</code> folder.<br>" +
+                   "7. Restart Minecraft.<br>" +
+                   "8. Have Fun!",
+          image: "https://media.forgecdn.net/attachments/1830/318/mcpedl-png.png",
+          caption: "Installation and folder path instructions."
+        },
+        {
+          title: "Changelog v1.3.7",
+          content: "<strong>Added 6 New Skins:</strong><br>" +
+                   "• Verity (Monster)<br>" +
+                   "• Verity (Face)<br>" +
+                   "• That Thing<br>" +
+                   "• Mario Sackboy<br>" +
+                   "• Purple Cosmic Clone<br>" +
+                   "• Red Cosmic Clone",
+          image: "https://r2.mcpedl.com/submissions/252835/images/alleis-skin-pack-v124_2.png",
+          caption: "Changelog v1.3.7 visual updates."
+        }
+      ]
+    },
+    {
+      id: "gooblideco-2-0-decoration-addon",
+      name: "Gooblideco 2.0 (500+ Decoration Blocks Addon)",
+      cat: "Add-ons",
+      arch: "Universal / Low-End Supported",
+      downloads: "150K",
+      size: "12.80 MB",
+      version: "v2.1.9 (v1.26.40+)",
+      bannerImage: "https://media.forgecdn.net/attachments/1471/219/gooblideco-thumbnail-png.png",
+      teraboxUrl: "https://terabox.com/s/1tcxSEca-vZCe_gq0j9SqKA",
+      summary: "Gooblideco 2.0 is a personal decorational project featuring over 500 blocks including connected walls, roofs, glass, and Filipino-style Sari-Sari store items. Fully optimized for low-end devices and Minecraft Bedrock 1.26+.",
+      keywords: ["Gooblideco 2.0 MCPE", "Minecraft Bedrock Furniture Mod", "Decoration Addon MCPE 1.26", "Sari Sari Store Minecraft", "Gooblideco Download TeraBox", "Minecraft PE Decor Blocks", "Connected Glass Bedrock Addon"],
+      sections: [
+        {
+          title: "You Need To Know About Gooblideco!",
+          content: "Gooblideco 2.0 is a personal project since 2025 featuring decorational blocks like connected walls, connected roofs, connected glass, and decorational items including the Filipino style store which is called 'Tindahan' or 'Sari-Sari Store'.<br><br>" +
+                   "It has been updated for 2026 to support the latest updates of Minecraft Bedrock, adding a bunch of more items reaching over <strong>500 blocks</strong>.<br><br>" +
+                   "This pack also supports low-end devices for a greater gaming experience and the project is still ongoing. With you guys, this addon would not be possible without your ideas, creativity, and enthusiasm! Let's decorate our world with happiness and creativity.",
+          image: "https://media.forgecdn.net/attachments/1471/219/gooblideco-thumbnail-png.png",
+          caption: "Gooblideco 2.0 Official Banner & World Decoration Showcase."
+        },
+        {
+          title: "Features & Decoration Showcase",
+          content: "Explore over 500 connected blocks, modern interior furniture, retail store layouts, custom lighting, and animated decor items.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_8196b698-31bb-40d6-8971-2e13406557a2.png",
+          caption: "Feature preview 1 — Connected Walls & Interior Layouts."
+        },
+        {
+          title: "Connected Roofs & Furniture Sets",
+          content: "Comprehensive overview of connected roof textures, modern chairs, tables, and ambient living room decorations.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_e7f8e168-7b21-49c0-94e0-b145a9c8acd1.png",
+          caption: "Feature preview 2 — Custom Furniture & Structural Blocks."
+        },
+        {
+          title: "Sari-Sari Store & Retail Stands",
+          content: "Authentic Filipino Sari-Sari Store setups, retail stands, Japanese snacks, chips, and produce section displays.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_d87950f2-f7b3-4bb2-aaac-4e941f70fa67.png",
+          caption: "Feature preview 3 — Tindahan Retail Store Section."
+        },
+        {
+          title: "Animated Blocks & Interactive Vending Machines",
+          content: "Dynamic GIF preview displaying animated connected glass and functional 2x3 vending machines.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_260573e0-e3c6-4167-b37e-8d51e0073ed7.gif",
+          caption: "Feature preview 4 — Animated Blocks Showcase."
+        },
+        {
+          title: "Kitchen Set & Household Items",
+          content: "Filipino kitchen set including round tables, walis-tambo (broom), typical beds, LPG tanks, calendars, and block tiles.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_9e0163b3-d00e-4443-8a81-bab87f2c7aa8.png",
+          caption: "Feature preview 5 — Kitchen & Household Decoration."
+        },
+        {
+          title: "Drinks Display & Ceiling Lights",
+          content: "Retail cola drink stands (black, blue, red), retail bottles, and dual-type functional ceiling lights.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_f28436a6-3192-4b17-832c-732fad52721f.png",
+          caption: "Feature preview 6 — Drink Stands & Ceiling Lighting."
+        },
+        {
+          title: "Connected Glass Mechanics in Action",
+          content: "Seamless connected glass visual behavior rendered smoothly without lag on budget devices.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_5a13fa26-3c91-4524-935e-613f06864b5a.gif",
+          caption: "Feature preview 7 — Smooth Connected Glass Preview."
+        },
+        {
+          title: "Survival Mode Availability Note",
+          content: "<em>\"I am not sure if I will make this addon available in survival.\"</em><br><br>" +
+                   "Currently, this addon is best enjoyed in Creative Mode to easily access the catalog of 500+ decorative elements.",
+          image: "https://media.forgecdn.net/attachments/1471/219/gooblideco-thumbnail-png.png",
+          caption: "Creative Mode Placement & Preview."
+        },
+        {
+          title: "Credits to Amazing Creators",
+          content: "Special thanks to these creators who helped make this project possible:<br>" +
+                   "• <strong>Kao</strong> (Vanilla Archive)<br>" +
+                   "• <strong>Hananaling</strong> (<a href='https://www.instagram.com/haneopi?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==' target='_blank' class='text-emerald underline'>Instagram Profile</a>)<br>" +
+                   "• <strong>Monorogu</strong> (<a href='https://www.youtube.com/@monodeco_md' target='_blank' class='text-emerald underline'>YouTube Channel</a>)<br>" +
+                   "• <strong>Foxino</strong> (<a href='https://www.youtube.com/@foxino8309/videos' target='_blank' class='text-emerald underline'>YouTube Channel</a>)<br>" +
+                   "• <strong>Vortex MCPE</strong> (<a href='https://www.youtube.com/@VortexMCPE_Official' target='_blank' class='text-emerald underline'>YouTube Channel</a>)",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_8196b698-31bb-40d6-8971-2e13406557a2.png",
+          caption: "Community collaboration & credit highlights."
+        },
+        {
+          title: "Important Notes & Rules of Use",
+          content: "• <strong>Updating Guide:</strong> If updating the pack for a new version, delete the old version first before installing the update.<br>" +
+                   "• <strong>No Experiments Required:</strong> No need to turn on experimental features like Beta APIs in order for it to work. Just install and activate!<br><br>" +
+                   "<strong>⚠️ Terms & Guidelines:</strong><br>" +
+                   "1. Do NOT copy or steal models, code, textures, or anything from this addon without permission.<br>" +
+                   "2. Do NOT rework or retouch any files in this addon for public release. Private personal modifications are permitted.<br>" +
+                   "3. If using this addon in your world videos or maps, simple credit is required.<br>" +
+                   "4. Do NOT post this on third-party apps or websites such as MAM. Only download this from Curseforge, MCPEDL, VortexMCPE, Modbay, or official YouTube channels.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_e7f8e168-7b21-49c0-94e0-b145a9c8acd1.png",
+          caption: "Usage rules and installation guidelines."
+        },
+        {
+          title: "Changelog v2.1.9",
+          content: "• Updated to support the latest Minecraft Bedrock version (<strong>1.26.40 / 26.40</strong>).<br>" +
+                   "• Added retail items such as retail_stands, shelves, Japanese snacks, chips, crunchies, gummies, and retail section signs (produce, drinks, and snacks).<br>" +
+                   "• Added retail cola drink stands (black, blue, red) and retail bottles.<br>" +
+                   "• Added 2x3 interactive vending machine.<br>" +
+                   "• Added Filipino kitchen set: round tables, walis-tambo (broom), and block tiles.<br>" +
+                   "• Added typical Filipino beds, LPG tanks, and wall calendars.<br>" +
+                   "• Added 2 new types of ceiling lights.",
+          image: "https://media.forgecdn.net/attachments/description/1211618/description_d87950f2-f7b3-4bb2-aaac-4e941f70fa67.png",
+          caption: "v2.1.9 Retail & Interior Content Update Overview."
+        }
+      ]
+    },
+    {
+      id: "verity-personal-helper-friend",
+      name: "VERITY - A Personal Helper Friend (MCPE Addon)",
+      cat: "Add-ons",
+      arch: "Universal / All Devices",
+      downloads: "95K",
+      size: "8.50 MB",
+      version: "v1.0.0 (Min v26.10+)",
+      bannerImage: "https://media.forgecdn.net/attachments/1742/123/verity-thumbnail-2-1-png.png",
+      teraboxUrl: "https://terabox.com/s/1R_uhlUUGFKt2TbacAqzgtw",
+      summary: "VERITY is a personal helper companion addon inspired by ThatMob's Verity ARG series. He cannot die, knows everything from math to ore locations, and helps you in your Minecraft world!",
+      keywords: ["VERITY Addon MCPE", "Minecraft Bedrock Verity Mod", "Verity ARG Minecraft", "Personal Helper Companion MCPE", "PnTMC Verity Addon", "Minecraft Bedrock Helper Mob", "MCPE Verity Download"],
+      sections: [
+        {
+          title: "About VERITY & Credits",
+          content: "The audio in this addon was extracted by PnTMC from ThatMob's video. Please don't use it without PnTMC's permission.<br><br>" +
+                   "If anything seems different, please feel free to provide feedback.<br><br>" +
+                   "<strong>CREDITS:</strong><br>" +
+                   "• <strong>ADDON DEVELOPED BY:</strong> @PnTMC<br>" +
+                   "• <strong>VERITY BY:</strong> @ThatMob<br>" +
+                   "• <strong>SOME SOUNDS BY:</strong> @SadSnowMC<br><br>" +
+                   "<em>Heavily inspired by ThatMob's Verity ARG series on YouTube.</em>",
+          image: "https://media.forgecdn.net/attachments/description/1575941/description_cbb16d30-505b-479e-b436-359203aee847.png",
+          caption: "VERITY - A personal helper friend who can't die and is older than minecraft."
+        },
+        {
+          title: "HOW TO PLAY?",
+          content: "• <strong>Change Languages:</strong> Change Verity languages with command: <code>/verity_language</code><br>" +
+                   "• <strong>Interacting:</strong> If he's on the ground, you can chat with him, but if he's in your inventory, wake him up by chatting <em>\"Hey Verity\"</em>. Don't go too far because Verity can't hear you.<br>" +
+                   "• <strong>Single Player Rule:</strong> Absolutely do not invite another friend if you have been in Verity's world for two days; he doesn't like that.<br>" +
+                   "• <strong>Ask Him Anything:</strong> You can ask him anything because he knows everything (mathematics, ore locations, animal sounds, any sound at all, you can even ask him to play a song if you're bored, etc.).<br>" +
+                   "• <strong>Warning:</strong> Absolutely do not make him angry.<br>" +
+                   "• <strong>Immortality:</strong> He cannot die.<br><br>" +
+                   "If you have any further questions, please visit the PnTMC YouTube channel and leave a comment on the community post.",
+          image: "https://media.forgecdn.net/attachments/1736/160/screenshot-2026-06-15-093129-png.png",
+          caption: "Interacting and chatting with Verity in your world."
+        },
+        {
+          title: "REQUIRED & COMPATIBILITY",
+          content: "• <strong>Game Version:</strong> V26.10 above<br>" +
+                   "• <strong>Texture Packs Warning:</strong> Do not use texture packs that change the appearance of the item you hold, as nothing might be visible when you hold Verity in your hand.<br>" +
+                   "• <strong>Experiments:</strong> You need to enable experiments (<strong>Beta APIs</strong>) in your world settings.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_da44e750-85f6-4291-9a62-21858b75cb6e.png",
+          caption: "Verity held item view & interaction settings."
+        },
+        {
+          title: "NOTES & TERMS OF USE",
+          content: "Do <strong>NOT</strong> reupload, redistribute, or publicly modify this addon without explicit permission. Private modifications for personal use are allowed.<br><br>" +
+                   "Please give feedback if you encounter any errors. Feedback on my YouTube channel is easier for me to read because I'm quite lazy about checking CurseForge comments XD<br><br>" +
+                   "<strong>WATCH THESE VIDEOS FOR MORE DETAILS:</strong><br>" +
+                   "• <a href='https://youtu.be/4NL46-oRmRU?si=ZDh4XtXvqMZeEF_w' target='_blank' class='text-emerald underline'>Verity Showcase Video 1</a><br>" +
+                   "• <a href='https://youtu.be/zFaj5UxTPm4?si=vJxhdqayzK8aEFpS' target='_blank' class='text-emerald underline'>Verity Showcase Video 2</a>",
+          image: "https://media.forgecdn.net/attachments/1740/151/screenshot-2026-06-17-130303-png.png",
+          caption: "Gameplay preview and Verity features."
+        },
+        {
+          title: "In-Game Gallery & Screenshots",
+          content: "Check out various in-game screenshots showcasing Verity companion mechanics, held items, and environment interactions.",
+          image: "https://media.forgecdn.net/attachments/1738/596/screenshot-2026-06-16-152523-png.png",
+          caption: "Verity in-game environment screenshot 1."
+        },
+        {
+          title: "Verity Features Showcase",
+          content: "Additional captures of Verity responding to player commands and world interactions.",
+          image: "https://media.forgecdn.net/attachments/1743/633/screenshot-2026-06-19-132325-png.png",
+          caption: "Verity in-game environment screenshot 2."
+        },
+        {
+          title: "More Gameplay Preview",
+          content: "Detailed visual updates showing inventory state and conversation mode.",
+          image: "https://media.forgecdn.net/attachments/1740/148/screenshot-2026-06-17-130004-png.png",
+          caption: "Verity held item / inventory state."
+        },
+        {
+          title: "Advanced Interactions",
+          content: "Exploring special functions, sound responses, and query commands with Verity.",
+          image: "https://media.forgecdn.net/attachments/1740/149/screenshot-2026-06-17-130019-png.png",
+          caption: "Verity active interaction preview."
+        },
+        {
+          title: "Verity Final Overview",
+          content: "Complete setup view and experimental features confirmation.",
+          image: "https://media.forgecdn.net/attachments/1740/150/screenshot-2026-06-17-130228-png.png",
+          caption: "Verity final in-game showcase screenshot."
+        }
+      ]
+    },
+    {
+      id: "amixi-practice-map",
+      name: "🎯 Amixi Practice Map (Bedrock Practice Map)",
+      cat: "Maps",
+      arch: "Universal / All Devices",
+      downloads: "120K",
+      size: "15.00 MB",
+      version: "v1.0 (Min 1.21.90+)",
+      bannerImage: "https://copilot.microsoft.com/th/id/BCO.acd893a1-609e-4d2c-9ef2-18e646df7896.png",
+      teraboxUrl: "https://terabox.com/s/1K_33QX6PlpDbR7KnKSHEVQ",
+      summary: "Hello there, This is Amixi Practice, a practice map which contains most of the stuff you need to train and improve your Bedrock PvP, Bridging, Clutching, and Parkour skills.",
+      keywords: ["Amixi Practice Map", "Minecraft Bedrock Practice Map", "MCPE PvP Bot Duel", "Speedbridge Map MCPE", "Clutch Practice Bedrock", "Block Parkour MCPE", "Minecraft Bedrock Practice Map Download"],
+      sections: [
+        {
+          title: "About Amixi Practice Map & FAQ",
+          content: "Hello there, This is Amixi Practice, a practice map which contains most of the stuff you need to train and improve.<br><br>" +
+                   "<strong>Some notes that I want to clear out before you have any questions:</strong><br>" +
+                   "• <strong>Which version does the map support?</strong> -> Minimum 1.21.90 (1.21.90)<br>" +
+                   "• <strong>Does it support multiplayer?</strong> -> Yes. However, some modes you can't access, also the knockback of player hit by another player is gonna be buggy.<br>" +
+                   "• <strong>How to disable fly in Creative mode? (for Speedbridge and Blockparkour)</strong> -> In World Settings before joining the map, go to Cheats, turn on Education edition. Go into the world, type this command <code>/ability @s mayfly false</code><br><br>" +
+                   "Once you get into the world, you will receive an item called \"Navigator\", Use it to access all modes you want to play.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_6e90b9fa-4f96-4ce1-ab80-960d9cae86a4.png",
+          caption: "Navigator item interface for mode selection."
+        },
+        {
+          title: "I. Practice Modes",
+          content: "<strong>1. FFA:</strong> This is a big area for you to summon bots with difficulties, from Dummy [0 reach] to Hacker [4 reach]. This is a great place to get a warm up or practice utilities like snowball and fishing rod. There are 6 types of Knockback:<br>" +
+                   "• Hive | Cubecraft | Zeqa Sumo | Nethergames | Java 1.8 | Combo<br><br>" +
+                   "<strong>2. Bridge FFA:</strong> There are multiple maps for this mode. This is used to practice your bridging skills and different bridging techniques.<br><br>" +
+                   "<strong>3. Speedbridge:</strong> There are 6 modes you can train here: Short, Normal, Long, Short Diagonal, Long Diagonal and Stack Up. The goal here is trying to reach the other island as fast as possible.<br><br>" +
+                   "<strong>4. Clutch:</strong> This is for players practicing their clutching skill. You can change how much hit you get, and the type of knockback you receive.<br><br>" +
+                   "<strong>5. Block Parkour:</strong> There are 10 courses you can train your block parkour skill. Each with their own unique paths to complete.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_0f698823-0649-4b4e-ad4e-f1460d136341.png",
+          caption: "Practice Mode Overview & Features."
+        },
+        {
+          title: "Bridge FFA, Speedbridge, Clutch & Block Parkour Showcase",
+          content: "Explore custom arenas designed specifically for testing bridging speed, clutches under various knockback configurations, and 10 block parkour challenges.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_c2d87daf-f06d-4c76-bde0-70737bb367a9.png",
+          caption: "Bridge FFA & Speedbridge Arena Preview."
+        },
+        {
+          title: "II. Bot Duel",
+          content: "There are total of 11 modes you can try. They are familiar with players in competitive community so I will leave this for you to explore by yourself.",
+          image: "https://media.forgecdn.net/attachments/description/null/description_587eda6c-7d0e-4457-a214-1ae951c282d4.png",
+          caption: "Bot Duel Modes & Arena Selection."
+        },
+        {
+          title: "III. Cosmetics",
+          content: "There are some cosmetics such as:<br>" +
+                   "• <strong>Hit Particle:</strong> Custom particle on hit<br>" +
+                   "• <strong>Trail Particle:</strong> Custom particle when you walk<br>" +
+                   "• <strong>Kill Effect:</strong> Custom effects when the duel is finished",
+          image: "https://media.forgecdn.net/attachments/description/null/description_d03b732b-065a-4bcb-9879-d4810ec7880f.png",
+          caption: "Custom Cosmetics Options."
+        },
+        {
+          title: "IV. Settings & V. Kit Editor",
+          content: "<strong>IV. Settings:</strong> You can explore this by yourself, as they are really easy to understand.<br><br>" +
+                   "<strong>V. Kit Editor:</strong> A place for you to customize your default kits in II. Bot Duel.<br><br>" +
+                   "That's everything you need to know about the map. Thanks for reading and playing!",
+          image: "https://media.forgecdn.net/attachments/description/null/description_8c812afd-1804-435e-a93b-ba253cfcd3cb.png",
+          caption: "Settings and Kit Editor Showcase."
+        }
+      ]
+    },
+    {
+      id: "one-block-bedrock-experience",
+      name: "⭐ One Block Map (Complete Bedrock Experience)",
+      cat: "Maps",
+      arch: "Universal / All Devices",
+      downloads: "3.7M",
+      size: "12.40 MB",
+      version: "v1.7.1 (Chaos Cubed Update)",
+      bannerImage: "https://media.forgecdn.net/attachments/1742/90/world_icon-jpeg.jpeg",
+      teraboxUrl: "https://terabox.com/s/1cCfDBeGgZJfvzLZV-IfezA",
+      summary: "A Complete One Block Experience for Bedrock Edition! Start with a single block floating in the sky. Breaking that block expands your world and unlocks new biomes, mobs, and dimensions.",
+      keywords: ["One Block MCPE", "Minecraft Bedrock One Block Map", "One Block Survival Bedrock", "MCPE One Block Download", "One Block Chaos Cubed", "Minecraft Skyblock Bedrock", "MCPE Survival Map 1.21"],
+      sections: [
+        {
+          title: "1. About this Map",
+          content: "I’m excited to finally share this One Block map with everyone. This project took around 8 months of work, testing and improvements.<br><br>" +
+                   "The goal was to recreate the classic Java Edition One Block experience for Bedrock players with smooth gameplay and proper progression.<br><br>" +
+                   "You start with a single block floating in the sky. Breaking that block slowly expands the world and unlocks new blocks, mobs and structures. Each level brings something new — keeping the gameplay fresh and exciting.",
+          image: "https://media.forgecdn.net/attachments/1742/90/world_icon-jpeg.jpeg",
+          caption: "⭐ One Block Map Main Cover Icon."
+        },
+        {
+          title: "2. Map Features & Multi-Level Progression",
+          content: "This map contains multiple levels, each with its own unique theme. As you progress, you will explore caves, biomes, structures and even other dimensions.<br><br>" +
+                   "It can be played solo or with friends, making it perfect for both casual and multiplayer gameplay.<br><br>" +
+                   "<strong>Available Map Levels:</strong><br>" +
+                   "• Plains | Underground | Deep Cave | Snowy | Desert | Jungle | Barren Lands | Ocean<br>" +
+                   "• Pale Garden | Swamp & Cherry | Mansion | Nether | Trail Ruins | Ancient City | Stronghold | Infinite (not really a level)<br><br>" +
+                   "<strong>⚠️ Important Warning:</strong><br>" +
+                   "Do not use: <code>/kill</code> or <code>/scoreboard</code>. Using these commands may break the map progression.",
+          image: "https://media.forgecdn.net/attachments/1742/100/screenshot-2026-06-18-143440-png.png",
+          caption: "Overview of floating island expansion and level progression."
+        },
+        {
+          title: "3. Update v1.7.1 — 🔥 Chaos Cubed!",
+          content: "<strong>Updated for Minecraft 26.30 – Chaos Cubed!</strong><br>" +
+                   "This update introduces new content from the latest game version, improves progression, and fixes several issues reported by players.<br><br>" +
+                   "<strong>✨ New Content in v1.7.1:</strong><br>" +
+                   "• Added new Chaos Cubed items.<br>" +
+                   "• Added Sulfur Cube.<br>" +
+                   "• Added new content from the Chaos Cubed Update.<br>" +
+                   "• Gameplay & Progression Improvements.",
+          image: "https://media.forgecdn.net/attachments/1742/112/dta-one-block1-png.png",
+          caption: "In-game preview showcasing new Chaos Cubed mechanics."
+        },
+        {
+          title: "4. World & Biome Gallery",
+          content: "Check out various screenshots from different progression levels, custom biomes, structures, and cute mob additions.",
+          image: "https://media.forgecdn.net/attachments/1742/110/dta-one-blck2-png.png",
+          caption: "Exploring advanced biomes and unique floating structures."
+        },
+        {
+          title: "5. Cute Mobs & Environment Showcase",
+          content: "Discover friendly custom mobs and ambient additions unlocked across higher map levels.",
+          image: "https://media.forgecdn.net/attachments/1742/108/cute-camel-png.png",
+          caption: "Custom cute camel companion unlocked in the Desert level."
+        },
+        {
+          title: "6. Terms & Conditions",
+          content: "• <strong>Personal Use Only:</strong> You may use or modify the map for personal gameplay but cannot redistribute it.<br>" +
+                   "• <strong>Content Creation:</strong> Videos are allowed but must include official links: ModBay | CurseForge | MCPEDL.<br>" +
+                   "• <strong>No Reposting:</strong> Do not upload this map to other sites.<br>" +
+                   "• <strong>Servers & Realms:</strong> Allowed without permission.<br>" +
+                   "• <strong>No Commercial Use:</strong> Selling this content is not allowed.",
+          image: "https://media.forgecdn.net/attachments/1742/109/cute-wolf-png.png",
+          caption: "Cute wolf mob showcase."
+        }
+      ]
+    },
+    {
+      id: "newb-shader-v16-legacy",
+      name: "Newb Shader v16 Legacy (Lightweight MCPE Shader)",
+      cat: "Texture Packs",
+      arch: "Android / Windows / iOS",
+      downloads: "2.3M",
+      size: "1.85 MB",
+      version: "v16 (Legacy Release)",
+      bannerImage: "https://media.forgecdn.net/attachments/1067/731/post-cover-15.png",
+      teraboxUrl: "https://terabox.com/s/10uFzj1zGijWlmNGydSJsEQ",
+      summary: "Newb Shader is a vanilla-styled lightweight Minecraft Bedrock Shader that enhances default aesthetics. Supports Android, Windows, and iOS versions of Minecraft with smooth lighting, natural skies, and waving foliage.",
+      keywords: ["Newb Shader MCPE", "Minecraft Bedrock Shader 1.26", "Lightweight MCPE Shader", "Newb Shader v16 Legacy", "Bedrock Shaders Android iOS", "MB Loader Minecraft Shaders", "Best Low End Shader MCPE", "Vanilla Minecraft Shader Bedrock"],
+      sections: [
+        {
+          title: "1. About Newb Shader & Final Legacy Release Statement",
+          content: "Newb Shader is a vanilla styled lightweight Minecraft Bedrock Shader that enhances the default aesthetics. It supports Android, Windows, and iOS versions of Minecraft 1.26 with the help of some tools.<br><br>" +
+                   "<strong>Note from Developer (devendrn):</strong> v16 will be the last legacy release. There will be no more updates to \"Newb X Legacy\" from me (devendrn). I'm sorry, but I no longer have motivation or time to dedicate for this project. This project still holds an important place in my heart! I'm grateful to everyone who has supported me throughout this project. Any future updates to this project if any would be done by community members of this project.",
+          image: "https://media.forgecdn.net/attachments/1067/731/post-cover-15.png",
+          caption: "Newb Shader v16 Legacy Official Cover Visual."
+        },
+        {
+          title: "2. Key Shader Features & Visual Enhancements",
+          content: "• <strong>Lighting:</strong> Features natural soft lighting with many subtle details.<br>" +
+                   "• <strong>Clouds:</strong> The clouds are soft and adapt with rain.<br>" +
+                   "• <strong>Sky:</strong> A natural-looking, bright sky that gives the shader an aesthetic feel. The end dimension also features a new fancy sky.<br>" +
+                   "• <strong>Water:</strong> A calm and relaxing water that's truly lightweight and looks beautiful.<br>" +
+                   "• <strong>Underwater:</strong> A bluish-foggy view with soft caustics and streaks.<br>" +
+                   "• <strong>Foliage wave:</strong> A subtle natural wave animation that applies to grass, leaves, vines and crops.<br>" +
+                   "• <strong>Lantern swing:</strong> Probably something you don't find in most bedrock shaders, a swinging lantern.<br>" +
+                   "• <strong>Depth:</strong> A smooth foggy layer that blends across the horizon, with an added misty layer that gives more depth to your world.<br>" +
+                   "• <strong>Rain weather:</strong> Something many users like about this shader is the rainy weather.<br>" +
+                   "• <strong>Entities:</strong> Entities have a soft ambient around them.<br>" +
+                   "• <strong>Color correction:</strong> Uses a very common tone mapping method, yet it still gives Newb Shader a distinct color tone.<br>" +
+                   "• <strong>Sun/Moon:</strong> A 3D looking vanilla moon, with all the moon phases. The sun is stunningly smooth, yet it preserves the vanilla vibe.<br>" +
+                   "• <strong>Glowy Ores:</strong> The ores glow and shimmer in darkness, making it easier to spot.<br>" +
+                   "• <strong>Auroras:</strong> The night sky is enhanced with aurora lights that change over time.<br>" +
+                   "• <strong>Glint Effect:</strong> Features an improved and fancy glint effect for enchanted items.",
+          image: "https://media.forgecdn.net/attachments/1067/805/overworld-sunrise-0.jpg",
+          caption: "Aesthetic Overworld Sunrise view rendered with Newb Shader."
+        },
+        {
+          title: "3. Installation & Loading Instructions",
+          content: "<strong>Disclaimer:</strong> Minecraft Bedrock does not officially support loading custom shaders. The following are unofficial ways to load shaders.<br><br>" +
+                   "<strong>Android Setup Guide:</strong><br>" +
+                   "1. Install MB Loader app from Google Play.<br>" +
+                   "2. Launch Minecraft through MB Loader.<br>" +
+                   "3. Import the resource pack and activate it in global resources.",
+          image: "https://media.forgecdn.net/attachments/1067/801/overworld-day-0.jpg",
+          caption: "Daytime overworld atmosphere with soft natural lighting."
+        },
+        {
+          title: "4. Recommended In-Game Configuration",
+          content: "It's recommended to use the following graphics settings for the game:<br>" +
+                   "• Beautiful sky — <strong>On</strong><br>" +
+                   "• Smooth shading — <strong>On</strong><br>" +
+                   "• Clouds — <strong>On</strong><br>" +
+                   "• Fancy graphics — <strong>On</strong><br>" +
+                   "• Brightness — <strong>10-90%</strong><br><br>" +
+                   "There are multiple subpacks in the shader resource pack. Use the \"No wave, No Fog\" subpack for better performance.<br><br>" +
+                   "<em>Make sure that the shader resource pack is kept at the top, above all other resource packs, for it to work properly. It may conflict with some other visual resource packs.</em>",
+          image: "https://media.forgecdn.net/attachments/1067/795/overworld-cave-2.jpg",
+          caption: "Deep cave exploration with dynamic glowing ores and atmospheric depth."
+        },
+        {
+          title: "5. Environment Showcase Gallery",
+          content: "Check out various in-game captures showcasing night skies, auroras, underwater effects, rain, nether, and end dimensions with Newb Shader active.",
+          image: "https://media.forgecdn.net/attachments/1067/797/overworld-night-1.jpg",
+          caption: "Nighttime sky featuring smooth aurora borealis lights."
+        },
+        {
+          title: "6. Weather & Underwater Effects Showcase",
+          content: "Detailed preview of rain weather reflections, underwater clarity with caustics, and snowy biome atmospheric fog.",
+          image: "https://media.forgecdn.net/attachments/1068/527/overworld-rain-3.png",
+          caption: "Rainy weather environmental atmospheric reflections."
+        },
+        {
+          title: "7. Alternate Dimensions Showcase (Nether & The End)",
+          content: "Complete visual overhauls for The Nether and The End dimensions with custom skies, fog blending, and enhanced ambient glow.",
+          image: "https://media.forgecdn.net/attachments/1067/793/end-1.jpg",
+          caption: "Custom fancy sky rendered inside The End dimension."
+        }
+      ]
+    },
+    {
+      id: "multiplayer-waypoint-system",
+      name: "Multiplayer Waypoint System Addon (MCPE 1.21+)",
+      cat: "Add-ons",
+      arch: "Universal / All Devices",
+      downloads: "4.8M",
+      size: "2.40 MB",
+      version: "v4.0 (Latest Update)",
+      bannerImage: "https://media.forgecdn.net/attachments/1168/940/logo10-jpg.jpg",
+      teraboxUrl: "https://terabox.com/s/1dZbOzA1BPfGjCiqmC83n-A",
+      summary: "Create waypoints for quick teleportation! Public waypoints system with 'my favorites' list! Each player can have and publish up to 999 waypoints! Compatible with any addons with cool camera effects when teleporting!",
+      keywords: ["Multiplayer Waypoint System MCPE", "Minecraft Bedrock Waypoints Addon", "MCPE Teleport Mod", "Fast Travel Minecraft Bedrock", "Waypoint Menu MCPE Download", "Minecraft PE Teleportation Addon", "MCPE Public Waypoints Mod", "Sirob Waypoints Addon"],
+      sections: [
+        {
+          title: "Overview & Features",
+          content: "Create waypoints for quick teleportation! Public waypoints system with \"my favorites\" list! Each player can have and publish up to 999 waypoints! The number of players online is unlimited! Compatible with any addons! Cool camera effects when teleporting!<br><br>A Waypoint is a point in the world to which you can always teleport from any distance. You can create a waypoint anywhere in the world, in any dimension. Not only you can have waypoints, all the players who are online in your world can have them too! And the number of such players is unlimited!<br><br>With this addon, every new player who joins the world will be given the item \"Waypoint Menu\". When you use it, a UI window opens where you can create, teleport, delete, rename, and many more different actions with waypoints.",
+          image: "https://media.forgecdn.net/attachments/1168/940/logo10-jpg.jpg",
+          caption: "Multiplayer Waypoint System Addon Banner Overview."
+        },
+        {
+          title: "LIST OF FEATURES",
+          content: "🧩 <strong>Fully compatible with almost all addons!</strong> Without any player.json or anything else!<br>" +
+                   "🌍 <strong>Waypoints publishing system!</strong> Each player can publish their waypoints for a specific period of time, and any player in your world can visit them! With excellent moderation tools, \"my favorites\" list, featured waypoints, and more! All limits, cooldowns, and restrictions are customizable on a per-dimension level!<br>" +
+                   "⛔ <strong>Blacklist for public waypoints!</strong> You can view who has visited your published waypoints and when, and you can blacklist specific players to prevent them from visiting your waypoints! The blacklist is separate for each waypoint!<br>" +
+                   "💵 <strong>Economic system!</strong> You can enable fees (spending XP levels or scoreboard) for teleportation, creation, or updating of waypoint coordinates! They depend on the distance to the waypoint, dimension, and many other factors! Everything is configurable!<br>" +
+                   "📱 <strong>User-friendly UI and beautiful animations!</strong> The menu is well-designed and categorized, it works very quickly, and each button has its own icon. Camera animation during teleportation to a waypoint, which has 2 variations depending on the distance to the waypoint!<br>" +
+                   "🚓 <strong>Moderation system!</strong> The player-administrator has full access to the waypoints of all players, as well as many other useful tools! Additionally, a published waypoint has a \"report\" button, so players can notify the admin about a suspicious waypoint!<br>" +
+                   "🛠️ <strong>Extremely extensive addon configuration options!</strong> Maximum number of waypoints per player, duration of countdowns during teleportation, creation, or updating of waypoints, camera effect toggling, and many more! Each option can be individually configured for each dimension!<br>" +
+                   "👌 <strong>Ensuring fair gameplay!</strong> To teleport, create, or update a waypoint, the player must remain still and connected to the world. This prevents cheating in PvP and other scenarios!<br>" +
+                   "🎨 <strong>Each player can customize their preferences!</strong> Customize your experience with options like changing the UI language, disabling sounds, adjusting text fonts, and more!<br><br>" +
+                   "⚡ <strong>Very good performance!</strong> Capable of handling hundreds of online players and thousands of waypoints!<br>" +
+                   "🚨 <strong>Handling all edge cases!</strong> Rest assured that no fool or cheater will break this addon!<br>" +
+                   "🌐 <strong>Translated into many languages!</strong> You can even translate it into your own language!<br>" +
+                   "💎 <strong>Reliable stuff!</strong> Each version is thoroughly tested, and any bugs are eliminated with a 95% probability before publication! However, if you still manage to find a bug, feel free to report it in the comments!",
+          image: "https://modbay.org/uploads/posts/2023-09/multiplayer-waypoint-system-waypoints-menu.png",
+          caption: "Waypoint Menu Interface & Compatibility Overview."
+        },
+        {
+          title: "HOW TO USE: Creating Your First Waypoint",
+          content: "After entering the world with this addon, you will have a new item in your inventory: \"Waypoint Menu\". Use it (Short tap on a block or long tap or right mouse button) to open the menu.<br><br>" +
+                   "As we see we don't have any waypoints yet, let's create our first waypoint!<br><br>" +
+                   "<strong>Note:</strong> You can create, teleport to and manage only those waypoints that are in your current dimension. For example, to create or teleport to a waypoint in Nether, you need to be in Nether.<br>" +
+                   "The button also displays which dimension we are in (green waypoint = overworld) and how many waypoints we have (0/5).<br>" +
+                   "As we see we are now in Overworld, so the waypoint will be created in Overworld. Click the \"Create new waypoint\" button. Then enter a name for your waypoint. Or you can leave the default name:",
+          image: "https://modbay.org/uploads/posts/2023-01/multiplayer-waypoint-system-create-new-waypoint-menu.jpg",
+          caption: "Create new waypoint menu window."
+        },
+        {
+          title: "Icons, Countdowns & Teleportation Visuals",
+          content: "The length of the name is limited to 100 characters, and it also supports paragraph colors (e.g., §4). Also, here you can choose an icon for your waypoint.<br><br>" +
+                   "Finally, click \"Submit\" to create a waypoint in the dimension where you are. And the countdown will start, during which you have to be immovable. Particles also spawn during the countdown, and they can be seen by other players.<br><br>" +
+                   "<strong>What happens if I start moving?</strong> The waypoint creation will be canceled, and you will have to recreate the waypoint from the menu.<br><br>" +
+                   "Does countdown seem too long? Don't worry, this addon is fully customizable, we'll look at the settings in the last section.<br><br>" +
+                   "A new waypoint will be created when the countdown is over! Open the menu again. Now we see 2 new buttons: \"Teleport to waypoint\" and \"Manage my waypoints\". Let's teleport to our new waypoint! Press the \"Teleport to waypoint\" button.<br><br>" +
+                   "Here you will see a list of your waypoints. The distance and direction to each waypoint is written next to its name (Distance in meters: 1m = 1 block, and direction of a compass in which direction the waypoint is from you). Click on the waypoint you want to teleport to.<br><br>" +
+                   "After selecting a waypoint, the countdown will start, at the end of which you will be teleported to the waypoint. During the countdown, particles are spawn near you and near the place where you are teleported to. And at the end of the countdown, a beautiful teleportation animation appears.<br><br>" +
+                   "If the distance to the waypoint is more than 150 blocks, the teleport animation looks different:",
+          image: "https://modbay.org/uploads/posts/2023-01/multiplayer-waypoint-system-create-new-waypoint-list-of-icons.gif",
+          caption: "Selecting custom icons for your waypoints."
+        },
+        {
+          title: "Teleportation Previews",
+          content: "Visual effects and third-person view animations during teleportation across short and long distances.",
+          image: "https://modbay.org/uploads/posts/2023-09/multiplayer-waypoint-system-teleportation-to-the-waypoint-third-person-view.gif",
+          caption: "Third-person teleportation camera view."
+        },
+        {
+          title: "MANAGING MY WAYPOINTS",
+          content: "In the menu, click \"Manage my waypoints\". Then select the waypoint you want to change.<br><br>" +
+                   "And here you can rename, update coordinates and delete the selected waypoint:<br>" +
+                   "• The \"Rename & change icon\" option allows you to rename the selected waypoint.<br>" +
+                   "• The \"Update coordinates\" option will set the coordinates of the selected waypoint to where you are now. There is a countdown like when you create a waypoint.<br>" +
+                   "• The \"Delete waypoint\" option allows you to delete the selected waypoint.<br>" +
+                   "Also near the dimension icon you can see the coordinates of the waypoint.",
+          image: "https://modbay.org/uploads/posts/2023-09/multiplayer-waypoint-system-waypoints-menu-click-manage-my-waypoints-button.png",
+          caption: "Managing created waypoints menu options."
+        },
+        {
+          title: "PUBLISHING A WAYPOINT",
+          content: "In the menu, click \"Explore public waypoints\", and this window will open.<br><br>" +
+                   "Click on \"My published waypoints\" and then on \"Publish new waypoint\". You will see a list of your waypoints that you can publish.<br><br>" +
+                   "Click on the waypoint you want to publish. Now you can specify the duration for which it will be published. By default, the maximum duration available for this dimension is entered (The administrator can change the maximum duration in the addon config).<br><br>" +
+                   "Click on \"Submit\", and you have published your first waypoint! Now you see a list of your published waypoints. Under the name of each waypoint, its statistics are displayed: the number of visits, how many players have added it to favorites, and the remaining expiration time.",
+          image: "https://modbay.org/uploads/posts/2023-09/multiplayer-waypoint-system-my-published-waypoints-menu.png",
+          caption: "Published public waypoints dashboard."
+        },
+        {
+          title: "EXPLORING PUBLIC WAYPOINTS",
+          content: "In the menu, click \"Explore public waypoints\", and this window will open. You see a list of public waypoints available in the current dimension. Click on the waypoint you would like to view.<br><br>" +
+                   "And here you can see the nickname of the waypoint owner and its statistics: the number of visits, how many players have added it to favorites, and the remaining expiration time.<br><br>" +
+                   "To visit a waypoint, click on the corresponding button. Additionally, you can add the waypoint to your favorites to make it easier to find and teleport to. When you have waypoints in your favorites, you will see a \"My favorites\" button in the \"Explore public waypoints\" menu.",
+          image: "https://modbay.org/uploads/posts/2023-09/multiplayer-waypoint-system-waypoint-info-menu.gif",
+          caption: "Exploring and visiting public waypoints."
+        },
+        {
+          title: "CUSTOMIZING MY PREFERENCES",
+          content: "In the menu, click \"My preferences\". And here you can customize your player preferences (these are not addon settings).<br><br>" +
+                   "Most of the settings are self-explanatory, we will focus on the \"Unlock waypoint menu item\". The \"Waypoint Menu\" item that you are given when you first enter the world is locked by default. What does this mean? It means that you cannot get rid of the item in any way. Even when you die, it doesn't drop from you. But if you want for example to put this item in the chest, you can activate this option.<br><br>" +
+                   "But if you lose this item, don't worry, just type <code>/waypoint-menu</code> into the chat, and you will get a new item.",
+          image: "https://modbay.org/uploads/posts/2023-01/multiplayer-waypoint-system-customizing-your-preferences.gif",
+          caption: "Player preference customization window."
+        },
+        {
+          title: "ADDON CONFIGURATION & ADMIN TOOLS",
+          content: "First, enter <code>/function sirobwaypoints_admin</code> into the chat to become a waypoints' admin. There can be any number of players as waypoints admins. To revoke the waypoint admin rights, just enter the above command again.<br><br>" +
+                   "After that you will become a waypoints admin. You also get a new item: \"Waypoint Control Panel\". Use it to open the control panel UI.<br><br>" +
+                   "Click the \"Addon config\" button and the addon settings window will open.",
+          image: "https://modbay.org/uploads/posts/2023-01/medium/multiplayer-waypoint-system-waypoint-control-panel-menu.jpg",
+          caption: "Waypoint Control Panel for Administrators."
+        },
+        {
+          title: "MANAGING OTHER PLAYERS' WAYPOINTS",
+          content: "In the control panel, click \"Manage players waypoints\" button. Then select a player. Next to the nickname, it says how many waypoints the player has in each dimension.<br><br>" +
+                   "And here you can completely control this waypoint: visit, rename, change coordinates and delete. Also near the dimension icon you can see the coordinates of the waypoint.",
+          image: "https://modbay.org/uploads/posts/2023-01/multiplayer-waypoints-system-managing-other-players-waypoint-menu.gif",
+          caption: "Admin menu for managing other players' waypoints."
+        }
+      ]
+    },
+    {
+      id: "cursed-italian-brainrot",
+      name: "Cursed Italian Brainrot Addon v1.2 (MCPE 1.21+)",
+      cat: "Add-ons",
+      arch: "ARM64 / ARMv7",
+      downloads: "168K",
+      size: "13.59 MB",
+      version: "v1.2 (Final)",
+      bannerImage: "https://media.forgecdn.net/attachments/1154/853/untitled11_20250411202812-png.png",
+      teraboxUrl: "https://terabox.com/s/1RhdxHegpO1tTvcK0FzFmzQ",
+      summary: "Cursed Brainrot Italian is a chaos-driven, meme-heavy addon for Minecraft Bedrock Edition (MCPE 1.21). Introduces surreal entities with custom audio clips, custom 3D entity models, and 8,000 HP raid boss mechanics.",
+      keywords: ["MCPE Brainrot Addon", "Minecraft Bedrock Meme Mod", "Italian Brainrot MCPE Download", "Cursed Minecraft Mods 1.21", "Bedrock Meme Mobs", "MCPE Boss Addons", "MCPE Custom Sound Mobs", "Minecraft PE Modpack 2026"],
+      sections: [
+        {
+          title: "1. Comprehensive Overview & Natural Biome Spawning Mechanics",
+          content: "The Cursed Italian Brainrot Addon completely overhauls your Minecraft Bedrock survival experience by injecting hilarious, surreal, and terrifying meme entities into your worlds. Rather than requiring creative spawn eggs, these custom 3D mobs spawn naturally across various biomes including Plains, Birch Forests, Deserts, and Savannas during both day and night cycles. Each entity features custom geometry, high-resolution textures, and unpredictable AI routines designed to surprise survival players.",
+          image: "https://media.forgecdn.net/attachments/1154/853/untitled11_20250411202812-png.png",
+          caption: "A massive army of custom Cursed entities invading a generated villager biome in Bedrock Edition."
+        },
+        {
+          title: "2. Ultimate Boss Battles: Defeating 'Tung Tung Tung Sahur'",
+          content: "Standing tall as the primary endgame challenge of this addon, 'Tung Tung Tung Sahur' is a towering colossal mob equipped with full Netherite armor and immense knockback resistance. Boasting over 8,000 HP, this boss requires strategic positioning, enchanted weapons, and splash potions of harming to defeat. Defeating this entity grants ultra-rare loot drops including enchanted golden apples and custom sound discs.",
+          image: "https://media.forgecdn.net/attachments/1169/829/screenshot_2025-04-26-16-01-13-617_com-mojang.jpg",
+          caption: "First-person boss fight perspective engaging 'Tung Tung Tung Sahur' in close-quarters combat."
+        },
+        {
+          title: "3. Special Entity Spotlight: Tralalero Tralala & Bombardino Crocodilo",
+          content: "The modpack introduces unique behavioral archetypes for different mobs. 'Tralalero Tralala' glides across terrain with zero footstep delay, creating chaotic jumpscares by playing custom high-frequency audio files when within a 15-block radius of players. On the other hand, 'Bombardino Crocodilo' dominates aquatic biomes, swimming at double the speed of standard drowned mobs and ambushing players along riverbanks.",
+          image: "https://media.forgecdn.net/attachments/1154/867/screenshot_2025-04-11-21-06-30-790_com-miui.jpg",
+          caption: "In-game testing environment showcasing mob scale, geometry models, and custom hitboxes."
+        },
+        {
+          title: "4. Custom HD Audio Engine & Spatial Sound Integration",
+          content: "Unlike standard Minecraft Bedrock add-ons that reuse vanilla monster grunts, Cursed Italian Brainrot features a fully custom sound manifest. Every entity is assigned unique, meme-themed voice lines imported directly into the game's audio engine. Spatial audio allows players to pinpoint nearby mobs purely through directional sound cues.",
+          image: "https://media.forgecdn.net/attachments/1154/868/screenshot_2025-04-11-21-05-32-862_com-miui.jpg",
+          caption: "Detailed inspection of custom mob model geometry and high-resolution texture maps."
+        },
+        {
+          title: "5. Hardcore Survival Tactics & Equipment Recommendations",
+          content: "Due to the extreme damage output and aggressive AI pathfinding of these mobs, entering early-game survival without diamond-tier armor is a guaranteed death sentence. Players are advised to build fortified bases with iron bars and lava trenches. Utilizing long-range bow attacks and splash potions is the most effective strategy for surviving horde nights.",
+          image: "https://media.forgecdn.net/attachments/1154/872/screenshot_2025-04-11-21-04-20-865_com-miui.jpg",
+          caption: "Nighttime survival scene illustrating mob aggressive pathfinding and lighting interactions."
+        },
+        {
+          title: "6. Step-by-Step Installation Guide for Android & iOS (MCPE 1.21+)",
+          content: "Installing this .mcaddon file on your mobile device is extremely simple. Download the package from the TeraBox download button below, open your device's File Manager, locate the downloaded file, and tap it to launch directly into Minecraft. Enable 'Holiday Creator Features' and 'Custom Biomes' in World Settings before generating your new world.",
+          image: "https://media.forgecdn.net/attachments/1169/827/screenshot_2025-04-26-16-17-22-108_com-miui.jpg",
+          caption: "Successful importing verification window inside Minecraft Bedrock Edition."
+        }
+      ]
+    },
+    {
+      id: "ad-fps-booster-lite",
+      name: "AD FPS BOOSTER V1.0 Lite (No Lag Fix for MCPE 1.21+)",
+      cat: "Texture Packs",
+      arch: "ARM64 / ARMv7",
+      downloads: "119K",
+      size: "157 KB",
+      version: "v1.0 Lite",
+      bannerImage: "https://copilot.microsoft.com/th/id/BCO.6c136db3-8d2e-4404-8ad8-d444b68d2cf7.png",
+      teraboxUrl: "https://terabox.com/s/1ognNxRbkIwvw_IMYks4p_g",
+      summary: "Tired of severe frame drops and thermal throttling in Minecraft Bedrock? AD FPS Booster V1.0 Lite is the ultimate ultra-optimized performance client pack designed to remove Render Dragon lag, clean up UI clutter, and unlock maximum FPS for low-end Android mobile devices.",
+      keywords: ["MCPE FPS Booster", "Minecraft Bedrock Lag Fix", "Low End Phone MCPE Pack", "Render Dragon FPS Fix", "Bedrock PvP Texture Pack", "MCPE 120 FPS Pack", "Minecraft Mobile Lag Reducer", "Best Texture Pack for Low RAM Phone"],
+      sections: [
+        {
+          title: "1. Ultimate Render Dragon Engine Optimization & Frame Rate Unlocker",
+          content: "Ever since Mojang integrated the Render Dragon graphics engine into Minecraft Bedrock Edition, mobile players utilizing low-end hardware (1GB to 3GB RAM) have suffered from continuous frame drops, input latency, and severe thermal throttling. AD FPS Booster V1.0 Lite directly solves this problem by re-engineering render passes, disabling heavy fog calculations, and reducing background script overhead. The result is a buttery-smooth 60 FPS to 120 FPS performance profile across crowded multiplayer servers and dense survival worlds.",
+          image: "https://i.imgur.com/3t433D9.png",
+          caption: "Live frame-rate benchmark demonstrating stable 60+ FPS rendering during night combat."
+        },
+        {
+          title: "2. Minimalist PvP HUD & Clean Interface Design",
+          content: "In competitive MCPE PvP duels on servers like The Hive or Cubecraft, every millisecond of reaction time counts. This texture pack streamlines the default user interface (UI) by introducing a compact, low-profile HUD. Container menus open instantaneously without frame stutters, chat boxes are simplified, and shield models are re-positioned to eliminate screen clutter during sword and bow fights.",
+          image: "https://i.imgur.com/HmBJbJc.png",
+          caption: "Optimized inventory screen with zero rendering lag and ultra-responsive touch response."
+        },
+        {
+          title: "3. Smart AI Particle Culling & Anti-Lag Visual Tweaks",
+          content: "Particle spam caused by enchanted weapon glints, splash potions, explosions, and weather effects often forces mobile GPUs to throttle. AD FPS Booster Lite implements smart particle culling that suppresses redundant background effects while preserving key visual hit-markers needed for PvP combat. Terrain block textures are downscaled with high visual clarity to minimize memory usage.",
+          image: "https://i.imgur.com/ESXwTko.png",
+          caption: "Clean block texture rendering with smart particle reduction active in survival terrain."
+        },
+        {
+          title: "4. Featherweight Architecture & Installation Instructions",
+          content: "With a total file size under 200 KB, AD FPS Booster Lite is one of the most efficient client resource packs ever created for Bedrock Edition. It is fully compatible with all ARM64 and ARMv7 Android devices running MCPE 1.21+. To apply, download the pack from the link below, tap to import into Minecraft, and activate it under Global Resources in your main menu settings.",
+          image: "https://i.imgur.com/qXRQnJZ.png",
+          caption: "Verified performance metrics running smoothly on budget mobile hardware."
+        }
+      ]
+    },
+    {
+      id: "animal-skins-pack",
+      name: "Animal Skins Pack v1.0 (HD Roleplay Skins)",
+      cat: "Skins",
+      arch: "Universal / All Devices",
+      downloads: "84K",
+      size: "2.10 MB",
+      version: "v1.0 (HD Release)",
+      bannerImage: "https://media.forgecdn.net/attachments/1398/366/texture-pack-logo-2025-11-19t183652-736-png.png",
+      teraboxUrl: "https://terabox.com/s/1cLSguSPooFDQmT8ayEp4dQ",
+      summary: "Transform into your favorite creatures with Animal Skins for Minecraft Bedrock! Featuring a massive collection of high-quality domestic, wild, and exotic animal skins designed specifically for roleplay servers, survival adventures, and custom multiplayer games.",
+      keywords: ["Minecraft Animal Skins", "MCPE Animal Roleplay Pack", "Cute Dog Skins Minecraft", "Bedrock Cat Skins Download", "MCPE HD Animal Skins", "Minecraft PE Cute Skins 1.21", "Free Minecraft Skins Bedrock", "Minecraft Fox Bear Skins"],
+      sections: [
+        {
+          title: "1. Ultimate Animal Roleplay Collection for Minecraft Bedrock",
+          content: "Unleash your wild side in Minecraft Bedrock Edition with the ultimate Animal Skins Pack! Whether you want to roam the jungle as a majestic wild beast, chill in a village as a cute domestic pet, or pull hilarious roleplay pranks on your friends, this skin collection delivers unmatched variety. Every single skin is carefully crafted with vibrant colors, expressive facial features, and 3D overlay layers that look incredible on all screen resolutions.",
+          image: "https://media.forgecdn.net/attachments/1398/366/texture-pack-logo-2025-11-19t183652-736-png.png",
+          caption: "Official Animal Skins Pack promotional banner showcasing HD creature designs."
+        },
+        {
+          title: "2. Domestic Pets & Cute Companion Skins",
+          content: "Love dogs, cats, and farm animals? This category includes a wide selection of adorable pets featuring detailed fur patterns, cute ears, and tail details. Perfect for city roleplays, pet adoption servers, or cozy survival builds with friends. These skins are fully compatible with slim and standard Steve/Alex character models.",
+          image: "https://media.forgecdn.net/attachments/1841/98/imagen_2026-08-03_194834395-png.png",
+          caption: "In-game preview of domestic pet skins including dogs, cats, and cute companions."
+        },
+        {
+          title: "3. Wild Predators & Exotic Jungle Beasts",
+          content: "Step out into the wild wilderness as an apex predator! From ferocious bears and cunning foxes to exotic jungle creatures, these skins feature intense eye details, realistic fur shading, and rugged survival aesthetics. Rule the forest biomes or start your own animal kingdom inside multiplayer survival SMPs.",
+          image: "https://media.forgecdn.net/attachments/1398/369/imagen_2025-11-19_201905155-png.png",
+          caption: "Showcase of wild animal skins including bears, foxes, and woodland predators."
+        },
+        {
+          title: "4. Vibrant, Easily Recognizable 3D Designs",
+          content: "Every skin in this pack uses Minecraft's dual-layer skin technology. This means hats, ears, snouts, and tails stand out with realistic 3D depth rather than feeling flat. Your character will look uniquely recognizable even from far distances across multiplayer server lobbies.",
+          image: "https://media.forgecdn.net/attachments/1398/368/imagen_2025-11-19_201854058-png.png",
+          caption: "Detailed angle viewing highlighting the 3D layer depth and vibrant color palette."
+        },
+        {
+          title: "5. Multi-Server Compatibility & Easy Setup",
+          content: "All skins in this pack are fully compliant with Mojang's official skin guidelines, making them 100% safe to use on featured Bedrock servers like Mineplex, Lifeboat, The Hive, and Cubecraft. Simply download the pack, apply your favorite skin through Minecraft's Dressing Room menu, and jump straight into action!",
+          image: "https://media.forgecdn.net/attachments/1398/370/imagen_2025-11-19_201915551-png.png",
+          caption: "Full lineup preview of exotic and colorful animal skins ready for server multiplayer."
+        }
+      ]
+    }
+  ];
+
+  let currentActiveMod = null;
+  let countdownInterval = null;
+
+  function renderGrid(filter = 'all') {
+    const grid = document.getElementById('grid');
+    const items = filter === 'all' ? RESOURCES : RESOURCES.filter(r => r.cat === filter);
+
+    document.getElementById('gridTitle').textContent = filter === 'all' ? 'Latest MCPE Content' : `${filter}`;
+
+    if (items.length === 0) {
+      grid.innerHTML = `<div class="col-span-full py-16 text-center text-slate-500 font-display fade-in">No verified resources found in this category yet. Send us your TeraBox link to feature it!</div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(r => `
+      <div onclick="openModPage('${r.id}')" class="card-hover bg-card border border-slate-800 rounded-2xl overflow-hidden cursor-pointer group flex flex-col justify-between">
+        <div>
+          <div class="h-48 relative overflow-hidden bg-slate-900">
+            <img src="${r.bannerImage}" alt="${r.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <span class="absolute top-3 left-3 bg-purple/90 backdrop-blur-md text-white text-xs font-display font-bold px-3 py-1 rounded-full shadow-lg">${r.cat}</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display font-bold text-white text-xl group-hover:text-emerald transition-colors">${r.name}</h3>
+            <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">${r.summary}</p>
+          </div>
+        </div>
+        <div class="p-5 pt-0">
+          <div class="pt-3 border-t border-slate-800/80 flex justify-between items-center text-xs text-slate-500">
+            <span class="font-medium">Size: ${r.size}</span>
+            <span class="text-emerald font-display font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">View Details <i class="fas fa-arrow-right text-[10px]"></i></span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterGrid(category) {
+    showView('homeView');
+    renderGrid(category);
+  }
+
+  function showView(viewId) {
+    document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+    document.getElementById(viewId).classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openModPage(id) {
+    const mod = RESOURCES.find(r => r.id === id);
+    if (!mod) return;
+
+    currentActiveMod = mod;
+    window.location.hash = mod.id;
+
+    showView('modView');
+
+    const content = document.getElementById('modPageContent');
+    content.innerHTML = `
+      <article class="bg-card border border-slate-800 rounded-2xl p-6 sm:p-10 space-y-8 shadow-2xl">
+        <div class="border-b border-slate-800 pb-6">
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="bg-emerald/10 text-emerald border border-emerald/20 font-display font-bold text-xs px-3 py-1 rounded-full">${mod.cat}</span>
+            <span class="bg-purple/10 text-purple border border-purple/20 font-display font-bold text-xs px-3 py-1 rounded-full">MCPE 1.21+</span>
+          </div>
+          <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight">${mod.name}</h1>
+          <p class="text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">${mod.summary}</p>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center text-xs">
+            <div><span class="text-slate-500 block">File Size</span><span class="font-bold text-white text-sm mt-0.5 block">${mod.size}</span></div>
+            <div><span class="text-slate-500 block">Architecture</span><span class="font-bold text-white text-sm mt-0.5 block">${mod.arch}</span></div>
+            <div><span class="text-slate-500 block">Downloads</span><span class="font-bold text-white text-sm mt-0.5 block">${mod.downloads}</span></div>
+            <div><span class="text-slate-500 block">Version</span><span class="font-bold text-white text-sm mt-0.5 block">${mod.version}</span></div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald/10 via-slate-900 to-purple/10 border border-slate-700/60 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-inner">
+          <div>
+            <h4 class="font-display font-bold text-white text-xl">Download ${mod.name}</h4>
+            <p class="text-xs text-slate-400 mt-1">Direct download mirror via TeraBox Cloud Storage.</p>
+          </div>
+          <button onclick="scrollToDownload()" class="btn-glow w-full sm:w-auto bg-emerald text-slate-950 font-display font-bold px-8 py-3.5 rounded-xl whitespace-nowrap flex items-center justify-center gap-2">
+            <i class="fas fa-arrow-down"></i> Go to Download Section
+          </button>
+        </div>
+
+        <div class="space-y-10 text-slate-300 text-sm leading-relaxed pt-2">
+          ${mod.sections.map(sec => `
+            <section class="space-y-4">
+              <h2 class="font-display text-2xl font-bold text-white border-l-4 border-emerald pl-3.5">${sec.title}</h2>
+              <p class="text-slate-300 leading-relaxed">${sec.content}</p>
+              <div class="mt-4 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 group">
+                <img src="${sec.image}" alt="${sec.title}" class="w-full h-auto max-h-[450px] object-cover group-hover:scale-105 transition duration-500">
+                <div class="p-3 bg-slate-950/90 text-center text-xs text-slate-400 italic border-t border-slate-800/80">
+                  <i class="fas fa-camera mr-1 text-emerald"></i> ${sec.caption}
+                </div>
+              </div>
+            </section>
+          `).join('')}
+        </div>
+
+        <div id="downloadSection" class="pt-8 border-t border-slate-800 text-center space-y-6">
+          <button onclick="triggerDownloadModal()" class="btn-glow w-full bg-emerald text-slate-950 font-display font-bold py-4 rounded-xl text-lg flex items-center justify-center gap-2">
+            <i class="fas fa-download"></i> Download ${mod.name} (${mod.size})
+          </button>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 text-left">
+            <h5 class="font-display font-bold text-xs text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <i class="fas fa-tags text-emerald"></i> Related Search Topics & SEO Keywords
+            </h5>
+            <div class="flex flex-wrap gap-2">
+              ${mod.keywords ? mod.keywords.map(kw => `
+                <span class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1 rounded-lg border border-slate-700/50 transition-colors">${kw}</span>
+              `).join('') : ''}
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function scrollToDownload() {
+    const el = document.getElementById('downloadSection');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function triggerDownloadModal() {
+    document.getElementById('downloadModal').classList.remove('hidden');
+    document.getElementById('dlProcessing').classList.remove('hidden');
+    document.getElementById('dlReady').classList.add('hidden');
+
+    let left = 10;
+    const num = document.getElementById('dlCountdownNum');
+    const bar = document.getElementById('dlProgressBar');
+
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      left--;
+      num.textContent = left;
+      bar.style.width = `${((10 - left) / 10) * 100}%`;
+
+      if (left <= 0) {
+        clearInterval(countdownInterval);
+        document.getElementById('dlProcessing').classList.add('hidden');
+        document.getElementById('dlReady').classList.remove('hidden');
+      }
+    }, 1000);
+  }
+
+  function closeModal() {
+    clearInterval(countdownInterval);
+    document.getElementById('downloadModal').classList.add('hidden');
+  }
+
+  function startDownload() {
+    if (currentActiveMod) window.open(currentActiveMod.teraboxUrl, '_blank');
+    closeModal();
+  }
+
+  window.addEventListener('load', () => {
+    renderGrid();
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      openModPage(id);
+    }
+  });
+</script>
+</body>
+</html>
